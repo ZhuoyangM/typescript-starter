@@ -29,10 +29,6 @@ export class EventService {
     async deleteEvent(id: number): Promise<void> {
         this.eventRepository.delete(id);
     }
-s
-    async mergeAllEvents(): Promise<void> {
-        // Implement merging logic here
-    }
 
     private async mapDtoToEntity(eventDto: EventDto): Promise<Event> {
         const newEvent = new Event();

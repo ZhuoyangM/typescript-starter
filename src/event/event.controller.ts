@@ -23,12 +23,6 @@ export class EventController {
         this.eventService.deleteEvent(id);
     }
 
-    @Post('mergeAll')
-    async mergeAllEvents(): Promise<string> {
-        await this.eventService.mergeAllEvents();
-        return 'All overlapping events merged successfully.';
-    }
-
     private mapEntityToDto(event: Event): EventDto {
         const eventDto: EventDto = {
             id: event.id,
