@@ -11,12 +11,12 @@ export class EventService {
         private readonly eventRepository: Repository<Event>,
     ) {}
 
-    async createEvent(eventDto: EventDto): Promise<EventDto> {
+    async createEvent(eventDto: EventDto): Promise<Event> {
         const event = this.eventRepository.create(eventDto);
         return this.eventRepository.save(event);
     }
 
-    async getEventById(id: number): Promise<EventDto> {
+    async getEventById(id: number): Promise<Event> {
         return this.eventRepository.findOne(id);
     }
 

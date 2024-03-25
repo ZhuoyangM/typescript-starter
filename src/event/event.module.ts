@@ -7,11 +7,11 @@ import { EventService } from './event.service';
 import { Event } from './event.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Event]), // Import the Event entity
+  imports:[
+    TypeOrmModule.forFeature([Event]),
   ],
   controllers: [EventController],
   providers: [EventService],
-  exports: [EventService], // Optionally export the EventService for dependency injection
+  exports: [EventService],
 })
 export class EventModule {}
