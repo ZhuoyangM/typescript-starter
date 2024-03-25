@@ -18,7 +18,7 @@ export class UserService {
     ) {}
 
     async findUserById(id: number): Promise<User> {
-        return this.userRepository.findOne({where: {id: id}});
+        return this.userRepository.findOne({where: {id: id}, relations: ['events'] });
     }
 
     async createUser(userDto: UserDto): Promise<void> {

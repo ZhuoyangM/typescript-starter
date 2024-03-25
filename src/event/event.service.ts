@@ -22,7 +22,7 @@ export class EventService {
     }
 
     async getEventById(id: number): Promise<Event> {
-        const event = await this.eventRepository.findOne({where: {id: id}})
+        const event = await this.eventRepository.findOne({where: {id: id}, relations: ['invitees'] })
         return event;
     }
 
@@ -46,10 +46,13 @@ s
         switch (eventDto.status) {
             case 'TODO':
               newEvent.status = EventStatus.TODO;
+              break;
             case 'IN_PROGRESS':
               newEvent.status = EventStatus.IN_PROGRESS;
+              break;
             case 'COMPLETED':
               newEvent.status = EventStatus.COMPLETED;
+              break;
         }
 
         for (let i = 0; i < eventDto.invitees.length; i++) {
