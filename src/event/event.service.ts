@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Event } from './event.entity'; // Assuming you have a Task entity
@@ -11,6 +11,8 @@ export class EventService {
     constructor(
         @InjectRepository(Event)
         private readonly eventRepository: Repository<Event>,
+
+        @Inject(forwardRef(() => UserService))
         private readonly userService: UserService,
     ) {}
 
