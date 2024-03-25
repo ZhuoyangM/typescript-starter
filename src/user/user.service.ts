@@ -13,7 +13,7 @@ export class UserService {
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
         
-        @Inject(forwardRef(() => UserService))
+        @Inject(forwardRef(() => EventService))
         private readonly eventService: EventService,
     ) {}
 

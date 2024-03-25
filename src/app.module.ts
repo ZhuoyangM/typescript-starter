@@ -4,12 +4,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { User } from './user/user.entity';
-import { UserController } from './user/user.controller';
-import { UserService } from './user/user.service';
+import { UserModule } from './user/user.module';
 
 import { Event } from './event/event.entity';
-import { EventController } from './event/event.controller';
-import { EventService } from './event/event.service';
+import { EventModule } from './event/event.module';
+
 
 @Module({
   imports: [
@@ -24,8 +23,10 @@ import { EventService } from './event/event.service';
       synchronize: true,
       logging: true,
     }),
+    UserModule,
+    EventModule,
   ],
-  controllers: [AppController, UserController, EventController],
-  providers: [AppService, UserService, EventService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
