@@ -9,26 +9,35 @@ services:
       POSTGRES_USER: nest # POSTGRES_USER env var w/ value baloo
       POSTGRES_PASSWORD: nest
       POSTGRES_DB: nest
+    container_name: postgres
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
     ports: # Expose ports so that apps not running via docker compose can connect to them.
-      - 5000:5000 # format here is "port on our machine":"port on container"
+      - 5432:5432 # format here is "port on our machine":"port on container"
 
-  nestjs-app:
-    build: .
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nest-docker-postgres
     ports:
       - '3000:3000' # Adjust the port as needed
     depends_on:
       - db
     environment:
       - DB_HOST=db
-      - DB_PORT=5000
+      - DB_PORT=5432
       - DB_USER=nest
       - DB_PASSWORD=nest
       - DB_DATABASE=nest
+    volumes:
+      - ./src:/app/src
 
   # Adminer provides a nice little web UI to connect to databases
   adminer:
     image: adminer
     restart: always
+    container_name: UI
     environment:
       ADMINER_DESIGN: dracula # Pick a theme - https://github.com/vrana/adminer/tree/master/designs
     ports:

@@ -16,7 +16,7 @@ import { EventModule } from './event/event.module';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: "db",
-      port: 5000,
+      port: 5432,
       password: "nest",
       username: "nest",
       database: "nest",

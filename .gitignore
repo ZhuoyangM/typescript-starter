@@ -401,3 +401,6 @@ dist
 
 # Node Modules
 node_modules
+
+#pgdata
+pgdata
