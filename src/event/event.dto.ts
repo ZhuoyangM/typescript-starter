@@ -4,25 +4,23 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class EventDto {
     @ApiProperty()
-    readonly id: number;
+    id: number;
 
     @ApiProperty()
-    readonly title: string;
+    title: string;
 
     @ApiProperty()
-    readonly description: string;
+    description: string;
 
     @ApiProperty()
-    readonly status: string;
+    status: string;
 
     @ApiProperty()
-    readonly startTime: Date;
+    startTime: Date;
 
     @ApiProperty()
-    readonly endTime: Date;
+    endTime: Date;
 
     @ApiProperty()
-    readonly invitees: number[]; // Array of user IDs
-
-    // Other properties as needed
+    invitees: number[];
 }

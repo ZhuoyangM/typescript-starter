@@ -2,7 +2,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm';
 import { User } from '../user/user.entity';
 
-enum EventStatus {
+export enum EventStatus {
     TODO = 'TODO',
     IN_PROGRESS = 'IN_PROGRESS',
     COMPLETED = 'COMPLETED',

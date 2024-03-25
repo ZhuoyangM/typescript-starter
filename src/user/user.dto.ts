@@ -2,11 +2,11 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UserDto {
     @ApiProperty()
-    readonly id: number;
+    id: number;
 
     @ApiProperty()
-    readonly name: string;
+    name: string;
 
     @ApiProperty()
-    readonly events: number[];
+    events: number[];
 }

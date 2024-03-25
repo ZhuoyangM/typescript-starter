@@ -15,29 +15,30 @@ export class UserService {
         private readonly eventService: EventService,
     ) {}
 
-    async findAll(): Promise<User[]> {
-        return this.userRepository.find();
-    }
-
     async findUserById(id: number): Promise<User> {
         return this.userRepository.findOne({where: {id: id}});
     }
 
-    async create(userDto: UserDto): Promise<User> {
+    async createUser(userDto: UserDto): Promise<void> {
+        const newUser = await this.mapDtoToEntity(userDto);
+        this.userRepository.save(newUser);
+    }
+
+    async deleteUser(id: number): Promise<void> {
+        this.userRepository.delete(id);
+    }
+
+    private async mapDtoToEntity(userDto:UserDto): Promise<User> {
         const newUser = new User();
         newUser.id = userDto.id;
         newUser.name = userDto.name;
         newUser.events = [];
 
         for (let i = 0; i < userDto.events.length; i++) {
-            // Retrieve event from event service
             const currEvent = await this.eventService.getEventById(userDto.events[i]);
             newUser.events.push(currEvent);
         }
-        return this.userRepository.save(newUser);
-    }
 
-    async delete(id: number): Promise<void> {
-        await this.userRepository.delete(id);
+        return newUser;
     }
 }
