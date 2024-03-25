@@ -1,5 +1,6 @@
 // event.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, 
+    ManyToMany, JoinTable, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { User } from '../user/user.entity';
 
 export enum EventStatus {
@@ -27,6 +28,12 @@ export class Event {
 
     @Column({ nullable: true })
     endTime: Date;
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
 
     @ManyToMany(() => User)
     @JoinTable()

@@ -41,6 +41,8 @@ s
         newEvent.startTime = eventDto.startTime;
         newEvent.endTime = eventDto.endTime;
         newEvent.description = eventDto.description;
+        newEvent.createdAt = eventDto.createdAt;
+        newEvent.updatedAt = eventDto.updatedAt;
         newEvent.invitees = []
 
         switch (eventDto.status) {

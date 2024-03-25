@@ -37,6 +37,8 @@ export class EventController {
             status: event.status,
             startTime: event.startTime,
             endTime: event.endTime,
+            createdAt: event.createdAt,
+            updatedAt: event.updatedAt,
             invitees: [],
         };
         

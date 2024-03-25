@@ -23,4 +23,10 @@ export class EventDto {
 
     @ApiProperty()
     invitees: number[];
+
+    @ApiProperty()
+    createdAt: Date;
+
+    @ApiProperty()
+    updatedAt: Date;
 }
