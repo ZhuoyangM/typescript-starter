@@ -22,8 +22,7 @@ export class EventService {
     }
 
     async getEventById(id: number): Promise<Event> {
-        const event = await this.eventRepository.findOne({where: {id: id}, relations: ['invitees'] })
-        return event;
+        return this.eventRepository.findOne({where: {id: id}, relations: ['invitees'] });
     }
 
     async deleteEvent(id: number): Promise<void> {
@@ -31,9 +30,7 @@ export class EventService {
     }
 
     async mergeAll(userId: number): Promise<Event[]> {
-        // Retrieve all events of the user from the database
-        const user = await this.userService.findUserById(userId);
-        const userEvents = user.events;
+        const userEvents = await this.findEventsByUserId(userId);
     
         // Merge events
         const mergedEvents = this.getMergedEvents(userEvents);
@@ -48,23 +45,24 @@ export class EventService {
         await Promise.all(eventsToDelete.map(async (event) => {
             await this.eventRepository.remove(event);
         }));
-
-        // Update the list of events for the user
-        user.events = mergedEvents;
-        await this.userService.updateUser(user);
     
         // Return the updated events
         return mergedEvents;
     }
     
-      
     // Helper methods
+    private async findEventsByUserId(userId: number): Promise<Event[]> {
+      return this.eventRepository.createQueryBuilder('event')
+        .leftJoinAndSelect('event.invitees', 'user')
+        .where('user.id = :userId', { userId })
+        .getMany();
+    }
+
     private getMergedEvents(events: Event[]): Event[] {
         events.sort((a, b) => a.startTime.getTime() - b.startTime.getTime());
       
         const mergedEvents: Event[] = [];
         let currentEvent: Event = null;
-        let allUserId: number[] = [];
       
         for (const event of events) {
           if (!currentEvent || currentEvent.endTime < event.startTime) {
@@ -72,8 +70,7 @@ export class EventService {
             currentEvent = event;
           } else if (currentEvent.endTime >= event.startTime && currentEvent.endTime <= event.endTime) {
             currentEvent.endTime = event.endTime;
-            
-            // Merge invitee lists
+          // Merge invitee lists
             for (const invitee of event.invitees) {
                 if (!currentEvent.invitees.some(existingInvitee => existingInvitee.id === invitee.id)) {
                   currentEvent.invitees.push(invitee);
@@ -81,7 +78,6 @@ export class EventService {
             }
           }
         }
-        
         return mergedEvents;
     }
 

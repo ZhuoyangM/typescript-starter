@@ -39,3 +39,7 @@ export class Event {
     @JoinTable()
     invitees: User[];
 }
+
+{
+    
+}

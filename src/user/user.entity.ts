@@ -9,8 +9,4 @@ export class User {
 
     @Column()
     name: string;
-
-    @ManyToMany(() => Event)
-    @JoinTable()
-    events: Event[];
 }

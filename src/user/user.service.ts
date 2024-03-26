@@ -18,7 +18,7 @@ export class UserService {
     ) {}
 
     async findUserById(id: number): Promise<User> {
-        return this.userRepository.findOne({where: {id: id}, relations: ['events'] });
+        return this.userRepository.findOne({ where: {id: id} });
     }
 
     async createUser(userDto: UserDto): Promise<void> {
@@ -30,21 +30,10 @@ export class UserService {
         this.userRepository.delete(id);
     }
 
-    async updateUser(user: User): Promise<void> {
-        this.userRepository.save(user);
-    }
-
     private async mapDtoToEntity(userDto:UserDto): Promise<User> {
         const newUser = new User();
         newUser.id = userDto.id;
         newUser.name = userDto.name;
-        newUser.events = [];
-
-        for (let i = 0; i < userDto.events.length; i++) {
-            const currEvent = await this.eventService.getEventById(userDto.events[i]);
-            newUser.events.push(currEvent);
-        }
-
         return newUser;
     }
 }

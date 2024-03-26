@@ -29,13 +29,6 @@ export class UserController {
         const userDto = new UserDto();
         userDto.id = user.id;
         userDto.name = user.name;
-        userDto.events = [];
-
-        for (let i = 0; i < user.events.length; i++) {
-            const currId = user.events[i].id;
-            userDto.events.push(currId);
-        }
-
         return userDto;
     }
 

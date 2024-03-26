@@ -19,7 +19,7 @@ export class EventController {
     }
 
     @Delete(':id')
-    async deleteEvent(@Param('id') id: number){
+    async deleteEvent(@Param('id') id: number): Promise<void>{
         this.eventService.deleteEvent(id);
     }
 
