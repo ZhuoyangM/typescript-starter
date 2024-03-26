@@ -30,6 +30,62 @@ export class EventService {
         this.eventRepository.delete(id);
     }
 
+    async mergeAll(userId: number): Promise<Event[]> {
+        // Retrieve all events of the user from the database
+        const user = await this.userService.findUserById(userId);
+        const userEvents = user.events;
+    
+        // Merge events
+        const mergedEvents = this.getMergedEvents(userEvents);
+        await Promise.all(
+          mergedEvents.map(async (event) => {
+            await this.eventRepository.save(event);
+          }),
+        );
+          
+        // Delete unused events
+        const eventsToDelete = this.getOldEvents(userEvents, mergedEvents);
+        await Promise.all(eventsToDelete.map(async (event) => {
+            await this.eventRepository.remove(event);
+        }));
+
+        // Update the list of events for the user
+        user.events = mergedEvents;
+        await this.userService.updateUser(user);
+    
+        // Return the updated events
+        return mergedEvents;
+    }
+    
+      
+    // Helper methods
+    private getMergedEvents(events: Event[]): Event[] {
+        // Sort events by start time
+        events.sort((a, b) => a.startTime.getTime() - b.startTime.getTime());
+      
+        const mergedEvents: Event[] = [];
+        let currentEvent: Event = null;
+      
+        for (const event of events) {
+          if (!currentEvent || currentEvent.endTime < event.startTime) {
+            mergedEvents.push(event);
+            currentEvent = event;
+          } else if (currentEvent.endTime >= event.startTime && currentEvent.endTime <= event.endTime) {
+            currentEvent.endTime = event.endTime;
+          }
+        }
+        
+        return mergedEvents;
+    }
+
+    private getOldEvents(userEvents: Event[], mergedEvents: Event[]): Event[] {
+        
+        const eventsToDelete = userEvents.filter((event) => !mergedEvents.find((mergedEvent) => mergedEvent.id === event.id));
+    
+        return eventsToDelete
+    }
+    
+      
     private async mapDtoToEntity(eventDto: EventDto): Promise<Event> {
         const newEvent = new Event();
         newEvent.id = eventDto.id;

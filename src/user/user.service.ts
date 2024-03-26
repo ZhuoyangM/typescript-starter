@@ -30,6 +30,10 @@ export class UserService {
         this.userRepository.delete(id);
     }
 
+    async updateUser(user: User): Promise<void> {
+        this.userRepository.save(user);
+    }
+
     private async mapDtoToEntity(userDto:UserDto): Promise<User> {
         const newUser = new User();
         newUser.id = userDto.id;
