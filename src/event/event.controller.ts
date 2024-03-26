@@ -23,6 +23,11 @@ export class EventController {
         this.eventService.deleteEvent(id);
     }
 
+    @Post(':userId')
+    async mergeAll(@Param('userId') userId: number): Promise<void> {
+        this.eventService.mergeAll(userId);
+    }
+
     private mapEntityToDto(event: Event): EventDto {
         const eventDto: EventDto = {
             id: event.id,

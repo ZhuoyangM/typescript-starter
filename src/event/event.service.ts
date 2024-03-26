@@ -60,11 +60,11 @@ export class EventService {
       
     // Helper methods
     private getMergedEvents(events: Event[]): Event[] {
-        // Sort events by start time
         events.sort((a, b) => a.startTime.getTime() - b.startTime.getTime());
       
         const mergedEvents: Event[] = [];
         let currentEvent: Event = null;
+        let allUserId: number[] = [];
       
         for (const event of events) {
           if (!currentEvent || currentEvent.endTime < event.startTime) {
@@ -72,6 +72,13 @@ export class EventService {
             currentEvent = event;
           } else if (currentEvent.endTime >= event.startTime && currentEvent.endTime <= event.endTime) {
             currentEvent.endTime = event.endTime;
+            
+            // Merge invitee lists
+            for (const invitee of event.invitees) {
+                if (!currentEvent.invitees.some(existingInvitee => existingInvitee.id === invitee.id)) {
+                  currentEvent.invitees.push(invitee);
+                }
+            }
           }
         }
         
@@ -79,10 +86,8 @@ export class EventService {
     }
 
     private getOldEvents(userEvents: Event[], mergedEvents: Event[]): Event[] {
-        
         const eventsToDelete = userEvents.filter((event) => !mergedEvents.find((mergedEvent) => mergedEvent.id === event.id));
-    
-        return eventsToDelete
+        return eventsToDelete;
     }
     
       
@@ -116,4 +121,5 @@ export class EventService {
 
         return newEvent;
     }
+
 }
