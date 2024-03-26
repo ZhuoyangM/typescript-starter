@@ -34,6 +34,9 @@ export class EventService {
     
         // Merge events
         const mergedEvents = this.getMergedEvents(userEvents);
+        
+        console.log(mergedEvents);
+        
         await Promise.all(
           mergedEvents.map(async (event) => {
             await this.eventRepository.save(event);

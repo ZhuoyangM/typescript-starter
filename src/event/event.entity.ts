@@ -40,6 +40,14 @@ export class Event {
     invitees: User[];
 }
 
-{
-    
-}
+/** 
+    {
+        "title": "cf",
+        "description": "cf",
+        "status": "COMPLETED",
+        "startTime": "2023-09-01",
+        "endTime": "2023-09-03",
+        "invitees": [2]
+    }
+
+*/
