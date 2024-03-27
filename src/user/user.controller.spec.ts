@@ -29,7 +29,7 @@ describe('UserService', () => {
   });
 
   it('Create, read, delete, read again', async () => {
-    const userDto: UserDto = { id: 1, name: 'Test User' };
+    const userDto: UserDto = { id: 1, name: 'Alex' };
     const newUser = new User();
     Object.assign(newUser, userDto);
     jest.spyOn(userService, 'mapDtoToEntity').mockResolvedValue(newUser);

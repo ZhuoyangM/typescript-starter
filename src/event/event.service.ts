@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Event } from './event.entity'; // Assuming you have a Task entity
 import { EventDto } from './event.dto';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user/user.service';
 import { EventStatus } from './event.entity';
 
 @Injectable()
@@ -90,7 +90,7 @@ export class EventService {
     }
     
       
-    private async mapDtoToEntity(eventDto: EventDto): Promise<Event> {
+    async mapDtoToEntity(eventDto: EventDto): Promise<Event> {
         const newEvent = new Event();
         newEvent.id = eventDto.id;
         newEvent.title = eventDto.title;
