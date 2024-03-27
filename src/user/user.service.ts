@@ -5,16 +5,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { UserDto } from './user.dto';
-import { EventService } from 'src/event/event.service';
 
 @Injectable()
 export class UserService {
     constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
-        
-        @Inject(forwardRef(() => EventService))
-        private readonly eventService: EventService,
     ) {}
 
     async findUserById(id: number): Promise<User> {
@@ -30,7 +26,7 @@ export class UserService {
         this.userRepository.delete(id);
     }
 
-    private async mapDtoToEntity(userDto:UserDto): Promise<User> {
+    async mapDtoToEntity(userDto:UserDto): Promise<User> {
         const newUser = new User();
         newUser.id = userDto.id;
         newUser.name = userDto.name;

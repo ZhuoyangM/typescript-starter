@@ -1,6 +1,6 @@
 // user.module.ts
 
-import { Module, forwardRef } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
@@ -9,8 +9,7 @@ import { EventModule } from 'src/event/event.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
-    forwardRef(() => EventModule),
+    TypeOrmModule.forFeature([User])
   ],
   controllers: [UserController],
   providers: [UserService],
